@@ -4,8 +4,17 @@ function theControls() {
     const resetBtn = document.querySelector("#reset");
     const seconds = document.querySelector("#seconds");
     const minutes = document.querySelector("#minutes");
-    let secs = 00;
-    let min = 0; 
+
+    // at first, we had the secs and min set to "let"
+    // but that was messing up the function counter()
+    // when "reset" and then "start" again
+    // the minute left over before the "reset" was still being added to
+    // instead of being set to "0"
+    // ex 6:45 *reset 0:00, when the next minute is added 
+    // instead of 1:00 it was 7:00
+    var secs = 00;
+    var min = 0; 
+    let begin;
 
     function counter(){
         secs++;
@@ -25,26 +34,20 @@ function theControls() {
     }
 
     startBtn.addEventListener("click", () => {
-
-            setInterval(counter, 10);
-        
-        
-
-
+        clearInterval(begin);
+        begin = setInterval(counter, 1000);  
     });
 
-
-
-
-
-
-
     stopBtn.addEventListener("click", () => {
-        console.log("yeah")
+        clearInterval(begin);
     });
 
     resetBtn.addEventListener("click", () => {
-        console.log("we got it working");
+        clearInterval(begin);
+        secs = 00;
+        min = 0; 
+        seconds.textContent = "0" + secs;
+        minutes.textContent = "0" + min;
     })
 
 }
